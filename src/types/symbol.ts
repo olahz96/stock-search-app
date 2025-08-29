@@ -1,0 +1,13 @@
+export type StockSymbol = {
+  symbol: string
+  name: string
+  type: string
+  region: string
+  marketOpen: string
+  marketClose: string
+  timezone: string
+  currency: string
+  matchScore: string
+}
+
+export type SymbolSearchResponse = { data: StockSymbol[]; error: null } | { error: string; data: [] }
