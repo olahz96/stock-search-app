@@ -1,18 +1,19 @@
-type FetchAPIOptions = { url: string } & RequestInit
+import { resolveURL } from '@/utils/url'
 
-export const fetchAPI = async <T>({ url, ...options }: FetchAPIOptions): Promise<T> => {
-  const isServer = typeof window === 'undefined'
+type FetchApiOptions = { url: string; isExternal?: boolean } & RequestInit
+
+export const fetchAPI = async <T>({ url, isExternal = false, ...options }: FetchApiOptions): Promise<T> => {
   const headers = new Headers({
     'Content-Type': 'application/json',
     Accept: 'application/json'
   })
 
   try {
-    const response = await fetch(isServer ? `${process.env.NEXT_PUBLIC_URL}${url}` : url, { ...options, headers: headers })
+    const resolvedURL = resolveURL(url, isExternal)
+    const response = await fetch(resolvedURL, { ...options, headers: headers })
 
     if (response.ok) {
-      const { data } = await response.json()
-      return data
+      return await response.json()
     } else {
       const { error } = await response.json()
       throw new Error(error)
