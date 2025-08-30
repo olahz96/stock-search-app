@@ -1,17 +1,15 @@
-import { SymbolSearchResponse } from '@/types/symbol'
+import { StockQuote } from '@/types/quote'
+import { StockSymbol } from '@/types/search'
+import { fetchAPI } from '@/utils/fetchAPI'
 
-export const getSymbols = async (symbol: string): Promise<SymbolSearchResponse> => {
-  const response = await fetch(`/api/search?symbol=${encodeURIComponent(symbol)}`)
-  if (!response.ok) {
-    throw new Error('Network response was not ok')
-  }
-  return await response.json()
-}
+export const getStockSymbols = async (symbol: string) =>
+  await fetchAPI<StockSymbol[]>({
+    url: `/api/search?symbol=${encodeURIComponent(symbol)}`,
+    cache: 'force-cache'
+  })
 
-export const getStockQuote = async (symbol: string) => {
-  const response = await fetch(`/api/quote?symbol=${encodeURIComponent(symbol)}`)
-  if (!response.ok) {
-    throw new Error('Network response was not ok')
-  }
-  return await response.json()
-}
+export const getStockQuote = async (symbol: string) =>
+  await fetchAPI<StockQuote>({
+    url: `/api/quote?symbol=${encodeURIComponent(symbol)}`,
+    cache: 'force-cache'
+  })
