@@ -9,5 +9,3 @@ export type StockSymbol = {
   currency: string
   matchScore: string
 }
-
-export type SymbolSearchResponse = { data: StockSymbol[]; error: null } | { error: string; data: [] }

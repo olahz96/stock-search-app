@@ -1,4 +1,4 @@
-import { StockSymbol } from '@/types/symbol'
+import { StockSymbol } from '@/types/search'
 import React from 'react'
 import { SearchResultItem } from '@/components/stock/search/SearchResultItem'
 
@@ -8,8 +8,6 @@ type SearchResultsProps = {
 }
 
 export const SearchResults = ({ loading, results }: SearchResultsProps) => {
-  if (!loading && (!results || results.length === 0)) return null
-
   return (
     <div className="absolute w-full mt-2 bg-white border border-gray-200 rounded-xl shadow-lg max-h-60 overflow-y-auto z-10">
       {loading ? (
