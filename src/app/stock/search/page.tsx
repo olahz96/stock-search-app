@@ -15,7 +15,7 @@ export const StockSearchPage = () => {
 
   useEffect(() => {
     if (error) {
-      toast.error(error.message)
+      toast.error('Could not load search results. Please try again later.')
     }
   }, [error])
 

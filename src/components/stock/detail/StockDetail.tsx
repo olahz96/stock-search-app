@@ -10,7 +10,7 @@ type StockDetailProps = {
 export const StockDetail = ({ data }: StockDetailProps) => {
   return (
     <section>
-      <h2 className="text-3xl font-bold mt-4">{data?.symbol}</h2>
+      <h2 className="text-3xl font-bold mt-4">{data?.symbol ?? 'N/A'}</h2>
       <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 mt-6">
         <StockDetailCard title="Open" value={data?.open} icon={<Sunrise />} />
         <StockDetailCard title="High" value={data?.high} icon={<ArrowBigUp className="text-green-500" />} />
