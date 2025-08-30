@@ -4,7 +4,7 @@ import { SearchResults } from '@/components/stock/search/SearchResult'
 import { useDebounce } from '@/hooks/useDebounce'
 import { searchSymbolsOptions } from '@/utils/queryOptions'
 import { useQuery } from '@tanstack/react-query'
-import React, { useDeferredValue, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 
 export const StockSearchPage = () => {

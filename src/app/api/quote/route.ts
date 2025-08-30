@@ -1,6 +1,5 @@
 import { STOCK_MARKET_API } from '@/constants/api'
-import { StockApiSymbolSearchResult } from '@/types/api'
-import { StockSymbol } from '@/types/search'
+import { StockApiQlobalQuoteResult } from '@/types/api'
 import { fetchAPI } from '@/utils/fetchAPI'
 import { NextRequest, NextResponse } from 'next/server'
 
@@ -13,8 +12,8 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    const data = await fetchAPI<StockApiSymbolSearchResult>({
-      url: `${STOCK_MARKET_API}?function=SYMBOL_SEARCH&keywords=${encodeURIComponent(symbol)}&apikey=${process.env.API_KEY}`,
+    const data = await fetchAPI<StockApiQlobalQuoteResult>({
+      url: `${STOCK_MARKET_API}?function=GLOBAL_QUOTE&symbol=${encodeURIComponent(symbol)}&apikey=${process.env.API_KEY}`,
       isExternal: true
     })
 
@@ -26,17 +25,21 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'API call frequency limit reached' }, { status: 429 })
     }
 
-    const results: StockSymbol[] = (data['bestMatches'] ?? []).map(match => ({
-      symbol: match['1. symbol'],
-      name: match['2. name'],
-      type: match['3. type'],
-      region: match['4. region'],
-      marketOpen: match['5. marketOpen'],
-      marketClose: match['6. marketClose'],
-      timezone: match['7. timezone'],
-      currency: match['8. currency'],
-      matchScore: match['9. matchScore']
-    }))
+    const globalQuote = data['Global Quote']
+    const results = globalQuote
+      ? {
+          symbol: globalQuote['01. symbol'],
+          open: globalQuote['02. open'],
+          high: globalQuote['03. high'],
+          low: globalQuote['04. low'],
+          price: globalQuote['05. price'],
+          volume: globalQuote['06. volume'],
+          latestTradingDay: globalQuote['07. latest trading day'],
+          previousClose: globalQuote['08. previous close'],
+          change: globalQuote['09. change'],
+          changePercent: globalQuote['10. change percent']
+        }
+      : null
 
     return NextResponse.json({ data: results })
   } catch (error) {

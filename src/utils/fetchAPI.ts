@@ -19,6 +19,7 @@ export const fetchAPI = async <T>({ url, isExternal = false, ...options }: Fetch
       throw new Error(error)
     }
   } catch (err) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     throw new Error(err as any)
   }
 }
